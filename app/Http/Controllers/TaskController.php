@@ -6,6 +6,8 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -35,6 +37,7 @@ class TaskController extends Controller
     {
         $data = $request->validated();
         // dd($data);
+
         Task::create($data);
         flash()->addSuccess('Daftar Tugas Berhasil Di Tambahkan');
         return redirect()->route('tasks.index');
@@ -53,15 +56,33 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        $title = "Upload File Gambar Ke Tugas";
+
+        return view('tasks.edit', compact('task', 'title'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, $id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        if (File::exists(public_path($task->gambar))) {
+            File::delete(public_path($task->gambar));
+        }
+
+        $image = $request->file('gambar');
+        $imageName = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+        $request->gambar->move(public_path('upload'), $imageName);
+        $imageUrl = 'upload/' . $imageName;
+
+        $task->update([
+            'gambar' => $imageUrl,
+        ]);
+
+        flash()->addSuccess('Gambar Tugas Berhasil Di Upload');
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -69,6 +90,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+
+        if (File::exists(public_path($task->gambar))) {
+            File::delete(public_path($task->gambar));
+        }
         $task->delete();
 
         return back();
@@ -77,12 +102,6 @@ class TaskController extends Controller
     public function tandaiSebagaiSelesai(Request $request, $id)
     {
         $task = Task::findOrFail($id);
-
-        if ($task->status === 1) {
-            // Jika status tugas sudah 1 (selesai), kembalikan pesan error.
-            return response()->json(['message' => 'Status Tugas Sudah Selesai.'], 400);
-        }
-
         $task->status = $request->input('status');
         $task->save();
 

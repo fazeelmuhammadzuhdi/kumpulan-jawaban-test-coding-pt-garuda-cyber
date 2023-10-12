@@ -15,6 +15,7 @@
                             <th>Deskripsi Tugas</th>
                             <th>Status Tugas</th>
                             <th>Tandai Sebagai Selesai</th>
+                            <th>Gambar</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -30,14 +31,23 @@
                                         <input type="checkbox" class="tandai-sebagai-selesai"
                                             data-task-id="{{ $task->id }}">
                                     @else
-                                        {!! $task->status_teks !!}
+                                        <input type="checkbox" class="tandai-sebagai-selesai"
+                                            data-task-id="{{ $task->id }}" checked disabled>
                                     @endif
+                                </td>
+                                <td>
+                                    <a href="{{ asset($task->gambar) }}" target="_blank">
+                                        <img src="{{ asset($task->gambar) }}" alt="No Image" width="80"
+                                            class="img-rounded">
+                                    </a>
                                 </td>
                                 <td>
                                     <form method="POST" action="{{ route('tasks.destroy', $task->id) }}">
                                         @csrf
                                         @method('DELETE')
-
+                                        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">
+                                            <i class="bx bx-edit-alt"></i> Upload Gambar
+                                        </a>
                                         <button type="submit" class="btn btn-danger show_confirm"> <i
                                                 class="bx bxs-trash-alt"></i> Delete</button>
                                     </form>
