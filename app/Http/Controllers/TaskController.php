@@ -17,6 +17,8 @@ class TaskController extends Controller
     public function index()
     {
         $title = "List Tasks";
+
+        // Mengambil Data Berdasarkan User Yang Sedang Login
         $tasks = Task::UserId()->paginate(10);
         return view('tasks.index', compact('title', 'tasks'));
     }
@@ -35,27 +37,24 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
+        // Validasi Data
         $data = $request->validated();
         // dd($data);
 
+        // Menyimpan Data
         Task::create($data);
+
+        //Pesan Berhasil
         flash()->addSuccess('Daftar Tugas Berhasil Di Tambahkan');
+
+        // Kembali Ke Halaman 
         return redirect()->route('tasks.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Menggunakan Model Binding
     public function edit(Task $task)
     {
+
         $title = "Upload File Gambar Ke Tugas";
 
         return view('tasks.edit', compact('task', 'title'));
@@ -67,11 +66,12 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, $id)
     {
         $task = Task::findOrFail($id);
-
+        // Cek Apakah Gambarnya Ada ?
         if (File::exists(public_path($task->gambar))) {
+            // Jika Ada hapus Gambar Lama Tersebut
             File::delete(public_path($task->gambar));
         }
-
+        // Upload Gambar Baru
         $image = $request->file('gambar');
         $imageName = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
         $request->gambar->move(public_path('upload'), $imageName);
@@ -90,7 +90,6 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-
         if (File::exists(public_path($task->gambar))) {
             File::delete(public_path($task->gambar));
         }
@@ -102,13 +101,14 @@ class TaskController extends Controller
     public function tandaiSebagaiSelesai(Request $request, $id)
     {
         $task = Task::findOrFail($id);
+        // dd($task);
         $task->status = $request->input('status');
         $task->save();
 
         if ($task) {
             return response()->json(['text' => 'Status Tugas Berhasil Di Update Menjadi Selesai'], 200);
         } else {
-            return response()->json(['text' => 'Status Tugas Berhasil Di Update Menjadi Selesai'], 400);
+            return response()->json(['text' => 'Status Tugas Gagal Di Perbaharui'], 400);
         }
     }
 }

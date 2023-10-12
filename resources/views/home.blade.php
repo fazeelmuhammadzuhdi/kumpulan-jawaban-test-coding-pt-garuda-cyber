@@ -8,7 +8,7 @@
                     <div class="d-flex align-items-end row">
                         <div class="col-sm-7">
                             <div class="card-body">
-                                <h5 class="card-title text-primary">Congratulations John! 🎉</h5>
+                                <h6 class="card-title text-primary">Selamat Datang {{ auth()->user()->name }}! 🎉</h6>
                                 <p class="mb-4">
                                     You have done <span class="fw-bold">72%</span> more sales today.
                                     Check your new badge in
@@ -196,7 +196,7 @@
                         </div>
                     </div>
                     <!-- </div>
-                            <div class="row"> -->
+                                <div class="row"> -->
                     <div class="col-12 mb-4">
                         <div class="card">
                             <div class="card-body">

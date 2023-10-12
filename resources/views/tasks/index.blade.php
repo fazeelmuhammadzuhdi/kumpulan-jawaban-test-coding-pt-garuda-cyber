@@ -26,7 +26,7 @@
                                 <td>{{ $task->nama }}</td>
                                 <td>{{ $task->deskripsi }}</td>
                                 <td> {!! $task->status_teks !!}</td>
-                                <td>
+                                <td class="text-center">
                                     @if ($task->status === 0)
                                         <input type="checkbox" class="tandai-sebagai-selesai"
                                             data-task-id="{{ $task->id }}">
@@ -37,8 +37,14 @@
                                 </td>
                                 <td>
                                     <a href="{{ asset($task->gambar) }}" target="_blank">
-                                        <img src="{{ asset($task->gambar) }}" alt="No Image" width="80"
-                                            class="img-rounded">
+                                        @if ($task->gambar)
+                                            <img src="{{ asset($task->gambar) }}" alt="Task Image" width="80"
+                                                class="img-rounded img-fluid">
+                                        @else
+                                            <img src="{{ asset('assets/img/avatars/no-image.png') }}" alt="No Image"
+                                                width="80" class="img-rounded img-fluid">
+                                        @endif
+
                                     </a>
                                 </td>
                                 <td>
@@ -92,9 +98,9 @@
                     confirmButtonText: 'Ya, Tandai Sebagai Selesai!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
+                    location.reload();
                     if (result.isConfirmed) {
                         // Kirim permintaan ke server menggunakan AJAX
-                        location.reload();
 
                         $.ajax({
                             url: '/tandai-sebagai-selesai/' + taskId,
@@ -121,12 +127,12 @@
                                 if (status == 400) {
                                     Swal.fire({
                                         position: 'center',
-                                        icon: 'success',
+                                        icon: 'error',
                                         title: response.text,
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then((response) => {
-                                        location.reload();
+                                        response.reload();
                                     });
                                 }
                             }

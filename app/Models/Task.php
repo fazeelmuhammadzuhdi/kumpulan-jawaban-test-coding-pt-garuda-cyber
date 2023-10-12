@@ -34,13 +34,20 @@ class Task extends Model
     protected static function booted()
     {
         //memasukkan user id
-        static::creating(function ($tasks) {
-            $tasks->user_id = auth()->user()->id;
+        static::creating(function ($task) {
+            $user = auth()->user();
+            if ($user) {
+                $task->user_id = $user->id;
+            }
         });
 
-        static::updating(function ($tasks) {
-            $tasks->user_id = auth()->user()->id;
-        });
+        // static::creating(function ($tasks) {
+        //     $tasks->user_id = auth()->user()->id;
+        // });
+
+        // static::updating(function ($tasks) {
+        //     $tasks->user_id = auth()->user()->id;
+        // });
     }
 
     public function getStatusTeksAttribute()

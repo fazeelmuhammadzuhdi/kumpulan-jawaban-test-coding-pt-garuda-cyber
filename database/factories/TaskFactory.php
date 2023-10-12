@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +16,14 @@ class TaskFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+
+    public function definition()
     {
         return [
-            //
+            'nama' => fake()->sentence,
+            'deskripsi' => fake()->paragraph,
+            'gambar' => 'assets/img/avatars/no-image.png',
+            'status' => fake()->randomElement([0, 1]),
         ];
     }
 }
