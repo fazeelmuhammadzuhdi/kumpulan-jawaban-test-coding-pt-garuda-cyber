@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -16,9 +17,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $title = "List Tasks";
+        // Cara Ini Juga Bisa Tapi 2 Kali Looping Di Viewnnya
+        // $listTasks = User::with('tasks')->where('id', auth()->user()->id)->get();
+        // dd($tasks);
+        // return view('tasks.index', compact('title', 'listTasks'));
 
-        // Mengambil Data Berdasarkan User Yang Sedang Login
+        $title = "List Tasks";
+        // Mengambil Data Task Berdasarkan User Yang Sedang Login
         $tasks = Task::UserId()->paginate(10);
         return view('tasks.index', compact('title', 'tasks'));
     }

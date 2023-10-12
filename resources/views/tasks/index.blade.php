@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pages/</span> {{ $title }}</h4>
-
+        {{-- {{ json_encode($listTasks)  }} --}}
         <div class="card">
             <h5 class="card-header">Daftar Tugas {{ Auth::user()->name }}</h5>
             <div class="table-responsive text-nowrap">
@@ -61,7 +61,7 @@
                             </tr>
                         @empty
                             <tr class="text-center fw-bold fs-5">
-                                <td colspan="5">No Data</td>
+                                <td colspan="7">No Data</td>
                             </tr>
                         @endforelse
 
@@ -100,8 +100,6 @@
                 }).then((result) => {
                     location.reload();
                     if (result.isConfirmed) {
-                        // Kirim permintaan ke server menggunakan AJAX
-
                         $.ajax({
                             url: '/tandai-sebagai-selesai/' + taskId,
                             type: 'POST',
@@ -110,7 +108,7 @@
                                 status: status
                             },
                             success: function(response, status) {
-                                // Handle success, e.g., show a message
+                                // Mengandle success dan error
                                 if (status == 200) {
                                     Swal.fire({
                                         position: 'center',
@@ -138,7 +136,6 @@
                             }
                         });
                     } else {
-                        // Uncheck the checkbox if the user cancels the confirmation
                         $(this).prop('checked', !this.checked);
                     }
                 });
@@ -203,6 +200,7 @@
         // });
     </script>
 
+    {{-- Confirm Delete  --}}
     <script type="text/javascript">
         $('.show_confirm').click(function(e) {
             var form = $(this).closest("form");
