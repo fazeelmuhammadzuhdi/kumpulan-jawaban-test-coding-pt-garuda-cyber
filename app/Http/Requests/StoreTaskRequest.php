@@ -11,7 +11,7 @@ class StoreTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,23 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nama' => 'required',
+            'deskripsi' => 'nullable'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'nama.required' => ':attribute Wajib Diisi',
+
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'nama' => 'Nama',
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -13,7 +14,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $title = "List Tasks";
+        $tasks = Task::UserId()->paginate(10);
+        return view('tasks.index', compact('title', 'tasks'));
     }
 
     /**
@@ -21,7 +24,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Create Tasks";
+        return view('tasks.create', compact('title'));
     }
 
     /**
@@ -29,7 +33,11 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $data = $request->validated();
+        // dd($data);
+        Task::create($data);
+        flash()->addSuccess('Daftar Tugas Berhasil Di Tambahkan');
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -61,6 +69,27 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return back();
+    }
+
+    public function tandaiSebagaiSelesai(Request $request, $id)
+    {
+        $task = Task::findOrFail($id);
+
+        if ($task->status === 1) {
+            // Jika status tugas sudah 1 (selesai), kembalikan pesan error.
+            return response()->json(['message' => 'Status Tugas Sudah Selesai.'], 400);
+        }
+
+        $task->status = $request->input('status');
+        $task->save();
+
+        if ($task) {
+            return response()->json(['text' => 'Status Tugas Berhasil Di Update Menjadi Selesai'], 200);
+        } else {
+            return response()->json(['text' => 'Status Tugas Berhasil Di Update Menjadi Selesai'], 400);
+        }
     }
 }
