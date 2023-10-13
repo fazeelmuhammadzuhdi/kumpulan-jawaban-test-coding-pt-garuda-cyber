@@ -1,6 +1,5 @@
 ## Installation / Instalasi
 Direkomendasikan menggunakan php > 8.1.0. Pastikan Repository ini telah diclone, kemudian buka CLI dan posisikan direktori aktif ke repo ini.
-Silakan pilih salah satu dari dua cara di bawah ini.
 
 
 ### Setup
