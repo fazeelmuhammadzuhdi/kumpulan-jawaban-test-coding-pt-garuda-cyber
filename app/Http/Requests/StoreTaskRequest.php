@@ -38,7 +38,7 @@ class StoreTaskRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'nama' => 'Nama',
+            'nama' => 'Nama Tugas',
         ];
     }
 }

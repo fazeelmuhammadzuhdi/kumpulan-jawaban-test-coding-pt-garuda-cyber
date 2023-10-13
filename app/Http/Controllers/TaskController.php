@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -90,9 +88,7 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     // Menggunakan Model Binding
     public function destroy(Task $task)
     {
@@ -104,6 +100,7 @@ class TaskController extends Controller
         return back();
     }
 
+    // Update Status Tugas
     public function tandaiSebagaiSelesai(Request $request, $id)
     {
         $task = Task::findOrFail($id);
