@@ -22,7 +22,7 @@ class TaskFactory extends Factory
         return [
             'nama' => fake()->sentence,
             'deskripsi' => fake()->paragraph,
-            'gambar' => 'assets/img/avatars/no-image.png',
+            // 'gambar' => 'assets/img/avatars/no-image.png',
             'status' => fake()->randomElement([0, 1]),
         ];
     }

@@ -20,7 +20,13 @@
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label" for="basic-default-name">Gambar Lama</label>
                                 <div class="col-sm-9">
-                                    <img src="{{ asset($task->gambar) }}" alt="No Image" width="100" class="img-fluid">
+                                    @if ($task->gambar)
+                                        <img src="{{ asset($task->gambar) }}" alt="Task Image" width="80"
+                                            class="img-rounded img-fluid">
+                                    @else
+                                        <img src="{{ asset('assets/img/avatars/no-image.png') }}" alt="No Image"
+                                            width="80" class="img-rounded img-fluid">
+                                    @endif
                                 </div>
                             </div>
 
@@ -28,14 +34,23 @@
                                 <label class="col-sm-3 col-form-label" for="basic-default-name">Upload Gambar Tugas
                                 </label>
                                 <div class="col-sm-9">
-                                    <input type="file" name="gambar" class="form-control">
+                                    <input type="file" name="gambar"
+                                        class="form-control @error('gambar') is-invalid @enderror">
+
+                                    @error('gambar')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
+
                             </div>
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-9">
                                     <button type="submit" class="btn btn-primary">Upload Gambar</button>
-                                    <button type="button" class="btn btn-warning mx-2"  onclick="window.location.href='{{ route('tasks.index') }}'">Kembali</button>
+                                    <button type="button" class="btn btn-warning mx-2"
+                                        onclick="window.location.href='{{ route('tasks.index') }}'">Kembali</button>
                                 </div>
                             </div>
                         </form>

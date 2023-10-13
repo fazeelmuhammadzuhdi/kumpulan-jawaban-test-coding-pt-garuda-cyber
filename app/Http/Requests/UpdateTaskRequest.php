@@ -25,4 +25,19 @@ class UpdateTaskRequest extends FormRequest
             'gambar' => 'required|image|mimes:jpg,png,jpeg',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'gambar.required' => ':attribute Wajib Diisi',
+            'gambar.mimes' => ':attribute Wajib JPG,PNG Atau PNG',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'gambar' => 'Gambar',
+        ];
+    }
 }

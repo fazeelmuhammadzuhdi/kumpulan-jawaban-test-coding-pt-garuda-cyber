@@ -56,10 +56,10 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    // Menggunakan Model Binding
-    public function edit(Task $task)
+    public function edit($id)
     {
 
+        $task = Task::UserId()->findOrFail($id);
         $title = "Upload File Gambar Ke Tugas";
 
         return view('tasks.edit', compact('task', 'title'));
@@ -93,6 +93,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    // Menggunakan Model Binding
     public function destroy(Task $task)
     {
         if (File::exists(public_path($task->gambar))) {

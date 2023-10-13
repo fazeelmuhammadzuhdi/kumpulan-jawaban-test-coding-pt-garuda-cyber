@@ -98,8 +98,8 @@
                     confirmButtonText: 'Ya, Tandai Sebagai Selesai!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
-                    location.reload();
                     if (result.isConfirmed) {
+                        location.reload();
                         $.ajax({
                             url: '/tandai-sebagai-selesai/' + taskId,
                             type: 'POST',
@@ -107,31 +107,27 @@
                                 _token: "{{ csrf_token() }}",
                                 status: status
                             },
-                            success: function(response, status) {
+                            success: function(response) {
                                 // Mengandle success dan error
-                                if (status == 200) {
+                                if (response.text) {
                                     Swal.fire({
                                         position: 'center',
                                         icon: 'success',
                                         title: response.text,
                                         showConfirmButton: false,
                                         timer: 1500
-                                    }).then((response) => {
-                                        location.reload();
-                                    });
+                                    })
                                 }
                             },
-                            error: function(response, status) {
-                                if (status == 400) {
+                            error: function(response) {
+                                if (response.text) {
                                     Swal.fire({
                                         position: 'center',
                                         icon: 'error',
                                         title: response.text,
                                         showConfirmButton: false,
                                         timer: 1500
-                                    }).then((response) => {
-                                        response.reload();
-                                    });
+                                    })
                                 }
                             }
                         });
@@ -141,63 +137,6 @@
                 });
             });
         });
-        // $(document).ready(function() {
-        //     $('.tandai-sebagai-selesai').on('change', function() {
-        //         var taskId = $(this).data('task-id');
-        //         var status = this.checked ? 1 : 0; // Checkbox checked or not
-
-        //         if (confirm('Anda yakin ingin menandai tugas ini sebagai selesai?')) {
-        //             // Send an AJAX request to update the task status
-        //             $.ajax({
-        //                 url: '/tandai-sebagai-selesai/' + taskId,
-        //                 type: 'POST',
-        //                 data: {
-        //                     _token: "{{ csrf_token() }}",
-        //                     status: status
-        //                 },
-        //                 success: function(response, status) {
-        //                     // Handle success, e.g., show a message
-        //                     if (status = '200') {
-        //                         setTimeout(() => {
-        //                             Swal.fire({
-        //                                 position: 'center',
-        //                                 icon: 'success',
-        //                                 title: response.text,
-        //                                 showConfirmButton: false,
-        //                                 timer: 1500
-        //                             }).then((response) => {
-        //                                 location.reload();
-
-        //                             })
-        //                         });
-        //                     }
-        //                     // alert(response.message);
-        //                     // location.reload();
-        //                     // window.top.location = window.top.location
-        //                 },
-        //                 error: function(response, status) {
-        //                     if (status = '400') {
-        //                         setTimeout(() => {
-        //                             Swal.fire({
-        //                                 position: 'center',
-        //                                 icon: 'danger',
-        //                                 title: response.text,
-        //                                 showConfirmButton: false,
-        //                                 timer: 1500
-        //                             }).then((response) => {
-        //                                 location.reload();
-
-        //                             })
-        //                         });
-        //                     }
-        //                 }
-        //             });
-        //         } else {
-        //             // Uncheck the checkbox if the user cancels the confirmation
-        //             $(this).prop('checked', !this.checked);
-        //         }
-        //     });
-        // });
     </script>
 
     {{-- Confirm Delete  --}}

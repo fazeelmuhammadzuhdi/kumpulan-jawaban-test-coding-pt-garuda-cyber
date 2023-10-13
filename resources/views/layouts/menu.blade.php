@@ -75,7 +75,7 @@
             </a>
         </li>
 
-        <li class="menu-item {{ Route::is('tasks.index') ? 'active' : '' }}">
+        <li class="menu-item {{ Route::is('tasks.index') || Route::is('tasks.edit') ? 'active' : '' }}">
             <a href="{{ route('tasks.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Lists Tasks</div>
