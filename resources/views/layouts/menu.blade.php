@@ -64,24 +64,41 @@
             </a>
         </li>
 
-        <!--  Tasks -->
+        <!--  Master -->
         <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Tasks</span>
+            <span class="menu-header-text">Master</span>
         </li>
-        <li class="menu-item {{ Route::is('tasks.create') ? 'active' : '' }}">
-            <a href="{{ route('tasks.create') }}" class="menu-link">
+
+        <li class="menu-item {{ Route::is('customers.*') ? 'active' : '' }}">
+            <a href="{{ route('customers.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Create Tasks</div>
+                <div data-i18n="Analytics">Customer</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Route::is('tenants.*') ? 'active' : '' }}">
+            <a href="{{ route('tenants.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Tenants</div>
             </a>
         </li>
 
-        <li class="menu-item {{ Route::is('tasks.index') || Route::is('tasks.edit') ? 'active' : '' }}">
-            <a href="{{ route('tasks.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Lists Tasks</div>
-            </a>
+        <!--  Transaction -->
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Transactions</span>
         </li>
 
+        <li class="menu-item {{ Route::is('invoices.*') ? 'active' : '' }}">
+            <a href="{{ route('invoices.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Invoices</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Route::is('voucher.create') ? 'active' : '' }}">
+            <a href="{{ route('voucher.create') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Reedem Voucher</div>
+            </a>
+        </li>
 
 
     </ul>

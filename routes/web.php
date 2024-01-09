@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TenantController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +20,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware('guest');
+});
+
+
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::post('/tandai-sebagai-selesai/{id}', [TaskController::class, 'tandaiSebagaiSelesai']);
-Route::resource('/tasks', TaskController::class)->middleware(['auth']);
+Route::resource('/customers', CustomerController::class);
+Route::resource('/tenants', TenantController::class);
+Route::resource('/invoices', InvoiceController::class);
+Route::get('/invoices/{invoice}/voucher', [VoucherController::class, 'voucher'])->name('invoices.voucher');
+Route::get('/redeem', [VoucherController::class, 'create'])->name('voucher.create');
+Route::post('/redeem', [VoucherController::class, 'voucherRedeem'])->name('voucher.redeem');
